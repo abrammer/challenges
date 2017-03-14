@@ -1,3 +1,7 @@
+#   First time using a class in python
+#   Relative Python noob
+#   Would appreciate feedback on usage, efficiency etc.  
+#   Somethings are out of laziness though. 
 from string import ascii_lowercase
 import sys
 import os
@@ -12,7 +16,13 @@ PLACEHOLDER = '_'
 
 
 class Hangman():
+    ''' 
+    Self contained Hangman Game 
+    Start game by providing a word. 
+    Should probably return game result for higher up score keeping
+     '''
     def __init__(self, solution):
+        ''' Start initial conditions and trigger main loop'''
         self.guess_no = 0
         self.guesses = []
         self.solution = solution
@@ -20,6 +30,7 @@ class Hangman():
             self.get_input_guess()    
 
     def word(self):
+        ''' Build world from guesses'''
         word_array = []
         for i in self.solution.lower():
           if( i in self.guesses or i not in ASCII ):
@@ -29,6 +40,7 @@ class Hangman():
         return "".join(word_array)
     
     def get_input_guess(self):
+        ''' get input and keep it if it's new, if it's wrong increment guess count'''
         print("\t*  ",self.word() )
         print("\t*   Enter a letter:\n" )
         new_guess = str(input("\t*   ")).lower()
@@ -41,6 +53,7 @@ class Hangman():
             sleep(1)  
 
     def check_win(self):
+        ''' does guess word equal solution, print output if so'''
         if( self.word() == self.solution.lower() ):
             print("\t*  ",self.solution)
             print("\t*  Congrats! You Win!")
@@ -50,6 +63,7 @@ class Hangman():
             return False
 
     def check_loss(self):
+        ''' did we run out of guesses, print loser output'''
         if( self.guess_no == ALLOWED_GUESSES ):
             print("\t*  Sorry! You Lose")
             print("\t*  The correct word was:")
@@ -60,20 +74,21 @@ class Hangman():
             return False
     
     def loop( self ):
-            os.system("clear")
-            print("\t**********************************************")
-            print("\t***         Terminal Movie Hangman         ***")
-            print("\t**********************************************")
-            print("\t*                                            *")
-            print("\t*  Incorrect Guesses: ",str(self.guess_no),"/",str(ALLOWED_GUESSES),"                *")
-            print("\t*  ",HANG_GRAPHICS[self.guess_no]  )
-            print("\n")
-            if( self.check_win() ):
-                return False
-            elif( self.check_loss() ):
-                return False
-            else:
-                return True
+        ''' Main output loop return True while game continues'''
+        os.system("clear")
+        print("\t**********************************************")
+        print("\t***         Terminal Movie Hangman         ***")
+        print("\t**********************************************")
+        print("\t*                                            *")
+        print("\t*  Incorrect Guesses: ",str(self.guess_no),"/",str(ALLOWED_GUESSES),"                *")
+        print("\t*  ",HANG_GRAPHICS[self.guess_no]  )
+        print("\n")
+        if( self.check_win() ):
+            return False
+        elif( self.check_loss() ):
+            return False
+        else:
+            return True
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
